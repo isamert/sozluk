@@ -14,3 +14,7 @@ php ile yazılmış basit bir sözlük sistemi
 - ve diğer temel sözlük yapıları
 
 şuradan canlı bir örneğini görebilirsiniz: http://sozluk.isamert.net
+
+
+## kurulum
+`build` dizininin içinde bulunan sql dosyası ile gerekli database kurulumunu yapabilirsiniz. daha sonra `config.php` içindeki ayarları da yaptıktan sonra sözlüğünüz kullanıma hazır.
