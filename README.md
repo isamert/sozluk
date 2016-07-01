@@ -1,8 +1,6 @@
 # sozluk
 php ile yazılmış basit bir sözlük sistemi
 
-(kodlar şu an için oldukça karışık durumda. zamanla düzelteceğimi umuyorum.)
-
 ## temel özellikler
 - başlık açma
 - başlığa kategori bağlama (subreddit tarzında, sadece tek bir kategori)
