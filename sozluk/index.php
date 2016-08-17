@@ -40,7 +40,7 @@ require_once("category.php");
 			<?php elseif(isset($_GET['cat_id'])): ?>
 			  <?php include("html/category.php"); ?>
 			<?php elseif(isset($_GET['edit_entry'])): ?>
-			  <?php include("html/edit_etry.php"); ?>
+			  <?php include("html/edit_entry.php"); ?>
 			<?php elseif(isset($_GET['member_id'])): ?>
 			  <?php include("html/member_page.php"); ?>
 			<?php elseif(isset($_GET['messages'])): ?>

@@ -61,7 +61,7 @@ if(isset($_GET['operation'])) {
         
         foreach(Entry::get_replies($entry_id) as $entry) {
             $member = Member::get_member($entry['member_id']);
-            include("html_single_entry.php");
+            include("html/single_entry.php");
         }
         if (Member::is_signed()) { ?>
 		<div class="form-group">
