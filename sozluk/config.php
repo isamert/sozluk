@@ -11,4 +11,4 @@ define("HOST", "localhost");
 define("DB_NAME", "sozluk");
 define("DB_USER", "root");
 define("DB_PASSWD", "");
-?>
+

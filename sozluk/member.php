@@ -124,10 +124,12 @@ class Member {
         
         if(Member::exists($member_name))
             return false;
-        
+
+        $hashed_passwd = password_hash(trim($member_passwd), PASSWORD_DEFAULT);
+
         $db = Connection::get_instance()->db;
         $sql = sprintf("INSERT INTO member (member_name, member_passwd, member_mail, member_fullname, member_gender) value ('%s','%s','%s','%s','%s')",
-                        $db->real_escape_string(trim($member_name)), $db->real_escape_string(trim($member_passwd)),
+                        $db->real_escape_string(trim($member_name)), $hashed_passwd,
                         $db->real_escape_string(trim($member_mail)), $db->real_escape_string(trim($member_fullname)),
                         $db->real_escape_string($member_gender));
         
@@ -150,20 +152,19 @@ class Member {
             return false; //TODO: add error causes
      
         $db = Connection::get_instance()->db;
-        $query = sprintf("SELECT member_id FROM member WHERE member_name = '%s' AND member_passwd = '%s' LIMIT 1;",
-                         $db->real_escape_string(trim($member_name)), $db->real_escape_string(trim($member_passwd)));
+        $query = sprintf("SELECT member_id, member_passwd FROM member WHERE member_name = '%s' LIMIT 1;",
+                         $db->real_escape_string(trim($member_name)));
         $result = $db->query($query);
-        
-        if ($result->num_rows != 1)
-            return false;
-        else {   
-            $row = $result->fetch_array();
+        $row = $result->fetch_array();
+
+        if (password_verify($member_passwd, $row['member_passwd'])) {
             $_SESSION['member_id'] = $row['member_id'];
             $_SESSION['member_name'] = $member_name;
-            
+
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
     
     public static function change_passwd($member_name, $member_current_passwd, $member_new_passwd) {
@@ -174,12 +175,13 @@ class Member {
      
         $db = Connection::get_instance()->db;
         $query = sprintf("SELECT member_passwd FROM member WHERE member_name = '%s' LIMIT 1",
-                        $db->real_escape_string($username));
+                        $db->real_escape_string($member_name));
 
         $result = $db->query($query);
         $row = $result->fetch_array();
-     
-        if ($row['member_passwd'] != $member_current_passwd) 
+
+
+        if (!password_verify($member_current_passwd, $row['member_passwd'])) // Wrong input
             return false; //TODO: add error causes
      
         
@@ -214,7 +216,16 @@ class Member {
         
         return false;
     }
-    
+
+    public static function get_entry_count($member_id) {
+        $db = Connection::get_instance()->db;
+        $query = sprintf("SELECT entry_id FROM entry WHERE member_id = %d",
+            $db->real_escape_string($member_id));
+
+        $count = $db->query($query)->num_rows;
+        return $count;
+    }
+
     public static function get_subbed_categories($member_id) {
         $db = Connection::get_instance()->db;
         $query = sprintf("SELECT cat_id FROM member_subscribe WHERE member_id = %d",

@@ -2,7 +2,12 @@
     $member_id = $_GET['member_id'];
     $member = Member::get_member($member_id);
 ?>
-<h2><?php echo htmlspecialchars($member['member_name']); ?></h2>
+
+<header>
+    <h2><?php echo htmlspecialchars($member['member_name']); ?></h2>
+    <span class="label label-default"><?php echo Member::get_entry_count($member_id) ?> &middot;</span>
+</header>
+
 <div class="col-sm-12">
   <a href="#" class="btn btn-success btn-sm btn-send-message" data-toggle="modal" data-target="#message_modal" member_id="<?php echo $member['member_id'] ?>">mesaj sal</a>
   <a href="#" class="btn btn-info btn-sm">takip et</a>
