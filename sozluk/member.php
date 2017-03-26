@@ -237,8 +237,14 @@ class Member {
     }
     
     public static function get_latest_entries($member_id, $limit = 10) {
+        return self::get_all_entries($member_id, 1, $limit);
+    }
+    
+    public static function get_all_entries($member_id, $page = 1, $limit = 15) {
+        $start = ($page - 1) * $limit;
+        
         $db = Connection::get_instance()->db;
-        $query = sprintf("SELECT * FROM entry INNER JOIN entry_topic ON entry.entry_id=entry_topic.entry_id WHERE member_id = %d ORDER BY entry.entry_id DESC LIMIT %d",
+        $query = sprintf("SELECT * FROM entry INNER JOIN entry_topic ON entry.entry_id=entry_topic.entry_id WHERE member_id = %d ORDER BY entry.entry_id DESC LIMIT $start, $limit",
                         $db->real_escape_string($member_id), $db->real_escape_string($limit));
 
         $result = $db->query($query);

@@ -22,6 +22,7 @@
             <li><a href="index.php?topic_id=<?php echo $topic['topic_id']; ?>&populate=<?php echo $entry['entry_id'] ?>"><?php echo htmlspecialchars(strtolower($topic['topic_name'])); ?></a></li>
         <?php } ?>
     </ul>
+    <a href="<?php echo PathOperations::append_query(PhpOperations::get_current_url(), "show_entries", "true"); ?>" class="pull-right">hepsini göster &gt&gt</a>
 </div>
 <div class="col-sm-6">
   <h3>şeyler</h3>

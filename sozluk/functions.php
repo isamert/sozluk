@@ -13,6 +13,12 @@ class PhpOperations {
     public static function redirect($url) {
         echo "<script>window.location.replace('$url');</script>";
     }
+    
+    public static function get_current_url() {
+        $query = $_SERVER['QUERY_STRING'];
+        
+        return empty($query) ? "":"?" . $query;
+    }
 }
 
 class ValidateOperations {
@@ -70,6 +76,20 @@ class PathOperations {
         
         $path = rtrim($path, '/');
         return $path;
+    }
+    
+    // http://stackoverflow.com/a/25354578
+    public static function append_query($url, $key, $value = null) {
+        $query = parse_url($url, PHP_URL_QUERY);
+        
+        if ($query) {
+            parse_str($query, $queryParams);
+            $queryParams[$key] = $value;
+            $url = str_replace("?$query", '?' . http_build_query($queryParams), $url);
+        } else {
+            $url .= '?' . urlencode($key) . '=' . urlencode($value);
+        }
+        return $url;
     }
 }
 
